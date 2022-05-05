@@ -32,13 +32,13 @@ const apiAccess = {
                 return data;
             });
     },
-    register: (name, email, password) => {
-        return fetch(`${serverAddress}/register`, {
+    register: (email, password) => {
+        return fetch(`${serverAddress}/customer`, {
             method: 'Post',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name, email, password })
+            body: JSON.stringify({ email, password })
         })
             .then(res => res.json())
             .then(data => {
@@ -46,13 +46,48 @@ const apiAccess = {
                 return data;
             });
     },
+
     getCategories: () => {
         return fetch(`${serverAddress}/categories`)
             .then(res => res.json())
             .then(data => {
                 console.log(data);
+                return data;
+            })
+    },
+
+    getPlace: (place_id) => {
+        return fetch(`${serverAddress}/place/${place_id}`)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
                 return data.result;
             })
+    },
+
+    addPlace: (name, latitude, longitude, category_id, description) => {
+        return fetch(`${serverAddress}/place`, {
+            method: 'Post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, latitude, longitude, category_id, description })
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                return data
+            })
+    },
+
+    addPhotoToPlace: (photo, place_id) => {
+        return fetch(`${serverAddress}/photo`, {
+            method: 'Post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ photo, place_id })
+        })
     }
 
 };

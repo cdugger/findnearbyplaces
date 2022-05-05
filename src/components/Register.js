@@ -5,14 +5,9 @@ import Button from 'react-bootstrap/Button';
 import apiAccess from '../api/APIAccess';
 
 const Register = () => {
-    const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const navigate = useNavigate();
-
-    let onNameChange = (e) => {
-        setName(e.target.value);
-    }
 
     let onPasswordChange = (e) => {
         setPassword(e.target.value);
@@ -24,7 +19,7 @@ const Register = () => {
 
     let onSubmitHandler = (e) => {
         e.preventDefault();
-        apiAccess.register(name, email, password)
+        apiAccess.register(email, password)
             .then(x => {
                 navigate('/login');
             })
@@ -37,10 +32,6 @@ const Register = () => {
 
     return (
         <Form onSubmit={onSubmitHandler}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Name</Form.Label>
-                <Form.Control type="text" placeholder="Enter name" value={name} onChange={onNameChange} />
-            </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control type="email" placeholder="Enter email" value={email} onChange={onEmailChange} />

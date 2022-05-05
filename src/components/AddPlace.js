@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import apiAccess from '../api/APIAccess';
+import { useNavigate } from 'react-router-dom';
 
 const AddPlace = (props) => {
     const [name, setName] = useState('');
@@ -11,21 +12,31 @@ const AddPlace = (props) => {
     const [category, setCategory] = useState();
     const [latitude, setLatitude] = useState('');
     const [longitude, setLongitude] = useState('');
+    const [photo, setPhoto] = useState('');
     const [description, setDescription] = useState('');
+    const navigate = useNavigate();
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
         apiAccess.addPlace(name, latitude, longitude, category, description)
-        .catch(err => {
-            
-        })
+            .then(x => {
+                if (x.done) {
+                    apiAccess.addPhotoToPlace(photo, x.id);
+                    navigate('/place/' + x.id);
+                } else {
+                    console.log('failed')
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
 
     useEffect(() => {
         apiAccess.getCategories()
             .then(x => {
-                setCategories(x);
-                setCategory(x[0].id);
+                setCategories(x.result);
+                setCategory(x.result[0].id);
             })
             .catch(err => {
                 console.log(err);
@@ -41,7 +52,7 @@ const AddPlace = (props) => {
                 </Form.Group>
                 <Form.Group as={Col} controlId="formGridCategory">
                     <Form.Label>Category</Form.Label>
-                    <Form.Select defaultValue="" onChange={(e) => {console.log(e.target.value)}}>
+                    <Form.Select defaultValue="" onChange={(e) => { console.log(e.target.value) }}>
                         {
                             categories.map((x, i) => (
                                 <option key={i} value={x.id}>{x.name}</option>
@@ -61,6 +72,10 @@ const AddPlace = (props) => {
                     <Form.Control placeholder="Longitude" value={longitude} onChange={(e) => setLongitude(e.target.value)} />
                 </Form.Group>
             </Row>
+            <Form.Group controlId="formGridPhoto">
+                <Form.Label>Photo URL</Form.Label>
+                <Form.Control placeholder="URL" value={photo} onChange={(e) => setPhoto(e.target.value)} />
+            </Form.Group>
             <Form.Group>
                 <Form.Label>Description</Form.Label>
                 <Form.Control

@@ -9,7 +9,7 @@ const Navigation = (props) => {
     const handleLogout = () => {
         apiAccess.logout()
             .then(x => {
-                props.logout();
+                props.onLogout();
             })
             .catch(e => {
                 console.log(e);
