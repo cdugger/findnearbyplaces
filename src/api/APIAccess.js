@@ -1,4 +1,4 @@
-const serverAddress = '';
+const serverAddress = 'http://localhost:8000';
 
 const apiAccess = {
     logout: () => {
@@ -46,7 +46,15 @@ const apiAccess = {
                 return data;
             });
     },
-    
+    getCategories: () => {
+        return fetch(`${serverAddress}/categories`)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                return data.result;
+            })
+    }
+
 };
 
 export default apiAccess;

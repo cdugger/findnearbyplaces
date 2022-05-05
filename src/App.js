@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { HashRouter, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Menu from './components/Menu';
+import Navigation from './components/Navigation';
 import Home from './components/Home';
 import Login from './components/Login';
+import AddPlace from './components/AddPlace';
 import Register from './components/Register';
 import Container from 'react-bootstrap/Container';
 import Place from './components/Place';
@@ -28,7 +29,7 @@ function App() {
       <Container>
         <Row>
           <Col>
-            <Menu customer={customer} onLogout={logoutHandler} />
+            <Navigation customer={customer} onLogout={logoutHandler} />
           </Col>
         </Row>
         <Row className="justify-content-md-center">
@@ -37,6 +38,7 @@ function App() {
               <Route exact path='/' element={<Home />} />
               <Route path='/login/:from' element={<Login isLoggedIn={loginHandler} />} />
               <Route path='/login' element={<Login isLoggedIn={loginHandler} />} />
+              <Route exact path='/addPlace' element={<AddPlace />} />
               <Route exact path='/register' element={<Register />} />
               <Route exact path='/place/:id' element={
                 <ProtectedRoute customer={customer}><Place /></ProtectedRoute>

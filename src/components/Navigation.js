@@ -22,6 +22,7 @@ const Navigation = (props) => {
                 <Navbar.Brand href="#">Find Nearby Places</Navbar.Brand>
                 <Nav className="me-auto">
                     <Nav.Link href="#">Home</Nav.Link>
+                    <Nav.Link href="#/addPlace">Add Place</Nav.Link>
                     {
                         props.customer ?
                             <>

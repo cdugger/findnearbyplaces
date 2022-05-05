@@ -16,14 +16,14 @@ const Home = () => {
     }
 
     useEffect(() => {
-        apiAccess.getFlowers()
-        .then(x => {
-            setPlaces(x);
-        })
-        .catch(e => {
-            console.log(e);
-            alert('Something went wrong.')
-        })
+        // apiAccess.getPlaces()
+        // .then(x => {
+        //     setPlaces(x);
+        // })
+        // .catch(e => {
+        //     console.log(e);
+        //     alert('Something went wrong.')
+        // })
     }, []);
 
     return (
