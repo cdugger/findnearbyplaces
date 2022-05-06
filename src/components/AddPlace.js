@@ -3,8 +3,11 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 import apiAccess from '../api/APIAccess';
 import { useNavigate } from 'react-router-dom';
+import AddCategoryModal from './AddCategoryModal';
 
 const AddPlace = (props) => {
     const [name, setName] = useState('');
@@ -14,6 +17,7 @@ const AddPlace = (props) => {
     const [longitude, setLongitude] = useState('');
     const [photo, setPhoto] = useState('');
     const [description, setDescription] = useState('');
+    const [addCategoryModal, setAddCategoryModal] = useState(false);
     const navigate = useNavigate();
 
     const onSubmitHandler = (e) => {
@@ -40,6 +44,23 @@ const AddPlace = (props) => {
             })
     }
 
+    const showAddCategoryModal = () => {
+        setAddCategoryModal(true);
+    }
+
+    const addCategory = (name) => {
+        apiAccess.addCategory(name)
+            .then(x => {
+                let temp = [...categories];
+                temp.push({ name: name, id: x.id });
+                setCategories(temp);
+                console.log(x);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
     useEffect(() => {
         apiAccess.getCategories()
             .then(x => {
@@ -53,6 +74,10 @@ const AddPlace = (props) => {
 
     return (
         <Form onSubmit={onSubmitHandler}>
+            {addCategoryModal ?
+                <AddCategoryModal show={addCategoryModal} hide={() => setAddCategoryModal(false)} onConfirm={addCategory} />
+                :
+                <></>}
             <Row>
                 <Form.Group as={Col} className="mb-3" controlId="formGridName">
                     <Form.Label>Name</Form.Label>
@@ -68,6 +93,12 @@ const AddPlace = (props) => {
                         }
                     </Form.Select>
                 </Form.Group>
+                <Col>
+                    <OverlayTrigger placement="bottom" overlay={<Tooltip id="button-tooltip-1">Add category</Tooltip>}>
+                        <i className="bi bi-plus fs-2" onClick={showAddCategoryModal} style={{ "cursor": "pointer", "color": "green" }}></i>
+                    </OverlayTrigger>
+                </Col>
+
             </Row>
 
             <Row>

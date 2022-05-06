@@ -33,7 +33,7 @@ const EditPlaceModal = (props) => {
     return (
         <Modal show={props.show} onHide={props.hide}>
             <Modal.Header closeButton>
-                <Modal.Title>Edit schedule name</Modal.Title>
+                <Modal.Title>Edit place</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <p>Editing <strong>{props.place.name}</strong></p>

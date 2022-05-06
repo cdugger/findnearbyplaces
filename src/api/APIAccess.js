@@ -86,6 +86,24 @@ const apiAccess = {
             })
     },
 
+    addCategory: (name) => {
+        return fetch(`${serverAddress}/category`,
+            {
+                method: 'Post',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Credentials': true
+                },
+                body: JSON.stringify({ name })
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                return data;
+            })
+    },
+
     getPlace: (place_id) => {
         return fetch(`${serverAddress}/place/${place_id}`)
             .then(res => res.json())
