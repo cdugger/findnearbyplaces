@@ -79,7 +79,11 @@ const Home = () => {
                                         Description: {x.description}
                                     </Card.Text>
                                     <Card.Text>
-                                        {x.distance.toFixed(2)} units away from you
+                                        {x.distance ? 
+                                        x.distance.toFixed(2) + " units away from you"
+                                        : 
+                                        <></>
+                                        }
                                     </Card.Text>
                                     <Button variant="success" onClick={() => navigate(`place/${x.id}`)}>View Page</Button>
                                 </Card.Body>
