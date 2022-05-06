@@ -105,7 +105,7 @@ const Place = (props) => {
                                 <Card.Title>{place.name}</Card.Title>
                                 <Card.Subtitle>{place.description}</Card.Subtitle>
                                 <Card.Text>
-                                    Located at {place.latitude} {place.longitude}
+                                    Located at {place.latitude}, {place.longitude}
                                 </Card.Text>
                                 <Card.Text>
                                     Category: <strong>{place.category_name}</strong>
