@@ -1,4 +1,4 @@
-const serverAddress = 'https://cdugger-findnearbyplaces.herokuapp.com/';
+const serverAddress = 'https://cdugger-findnearbyplaces.herokuapp.com';
 
 const apiAccess = {
     logout: () => {
