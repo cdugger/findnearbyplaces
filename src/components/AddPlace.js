@@ -21,10 +21,21 @@ const AddPlace = (props) => {
         apiAccess.addPlace(name, latitude, longitude, category, description)
             .then(x => {
                 if (x.done) {
-                    apiAccess.addPhotoToPlace(photo, x.id);
-                    navigate('/place/' + x.id);
+                    console.log('place added');
+                    if (photo) {
+                        apiAccess.addPhotoToPlace(photo, x.id)
+                        .then(y => {
+                            console.log('photo added');
+                            navigate('/place/' + x.id);
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        })
+                    } else {
+                        navigate('/place/' + x.id);
+                    }
                 } else {
-                    console.log('failed')
+                    alert(x.message);
                 }
             })
             .catch(err => {
@@ -44,9 +55,9 @@ const AddPlace = (props) => {
     }, []);
 
     return (
-        <Form>
+        <Form onSubmit={onSubmitHandler}>
             <Row>
-                <Form.Group as={Col} className="mb-3" controlId="formGridName" onSubmit={onSubmitHandler}>
+                <Form.Group as={Col} className="mb-3" controlId="formGridName">
                     <Form.Label>Name</Form.Label>
                     <Form.Control placeholder="Place Name" value={name} onChange={(e) => setName(e.target.value)} />
                 </Form.Group>

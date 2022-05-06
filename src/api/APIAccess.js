@@ -88,8 +88,10 @@ const apiAccess = {
     addPlace: (name, latitude, longitude, category_id, description) => {
         return fetch(`${serverAddress}/place`, {
             method: 'Post',
+            credentials: 'include',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Credentials': true
             },
             body: JSON.stringify({ name, latitude, longitude, category_id, description })
         })
@@ -103,8 +105,10 @@ const apiAccess = {
     addPhotoToPlace: (photo, place_id) => {
         return fetch(`${serverAddress}/photo`, {
             method: 'Post',
+            credentials: 'include',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Credentials': true
             },
             body: JSON.stringify({ photo, place_id })
         })
