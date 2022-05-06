@@ -47,6 +47,26 @@ const apiAccess = {
             });
     },
 
+    search: (search_term, radius_filter, latitude, longitude, category_filter, maximum_results_to_return) => {
+        const user_location = latitude + "," + longitude;
+        // const search_str = search_term ? search_term : '';
+        // const category_str = category_filter ? category_filter : '';
+        // const paramStr = `?user_location=${user_location}&search_term=${search_str}&category_filter=${category_str}&maximum_results_to_return=20`
+        // console.log(paramStr);
+        return fetch(`${serverAddress}/search`, {
+            method: 'Post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ search_term, user_location, radius_filter, maximum_results_to_return, category_filter })
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                return data;
+            })
+    },
+
     getCategories: () => {
         return fetch(`${serverAddress}/categories`)
             .then(res => res.json())
