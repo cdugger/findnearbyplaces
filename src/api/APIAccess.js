@@ -67,6 +67,16 @@ const apiAccess = {
             })
     },
 
+    getReviews: (place_id) => {
+        return fetch(`${serverAddress}/reviews/${place_id}`)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                return data;
+            })
+
+    },
+
     getCategories: () => {
         return fetch(`${serverAddress}/categories`)
             .then(res => res.json())
@@ -82,6 +92,25 @@ const apiAccess = {
             .then(data => {
                 console.log(data);
                 return data.result;
+            })
+    },
+
+    addReview: (comment, rating, photo, place_id) => {
+        console.log(JSON.stringify({ place_id, comment, rating }))
+        return fetch(`${serverAddress}/review`,
+            {
+                method: 'Post',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Credentials': true
+                },
+                body: JSON.stringify({ place_id, comment, rating })
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                return data;
             })
     },
 

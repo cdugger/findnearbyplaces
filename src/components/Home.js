@@ -53,7 +53,7 @@ const Home = () => {
             </Form.Group>
             <Form.Group controlId="formGridPhoto">
                 <Form.Label>Search Radius</Form.Label>
-                <Form.Control type="number" min="0" placeholder="Radius" value={radius} onChange={(e) => setRadius(e.target.value)} />
+                <Form.Control type="number" min="0" value={radius} onChange={(e) => setRadius(e.target.value)} />
             </Form.Group>
             <Form.Group controlId="formGridMax">
                 <Form.Label>Number of results to show</Form.Label>
@@ -64,12 +64,28 @@ const Home = () => {
             </Button>
 
 
-            {places.length > 0 ? 
-            places.map((x, i) => (
-                <p key={i}>{x.name}</p>
-            ))
-            :
-            <p>No places found</p>
+            {places.length > 0 ?
+                <>
+                    <h4>{places.length} places found</h4>
+                    <ul>
+                        {places.map((x, i) => (
+                            // <li key={i}><a href={`/#/place/${x.id}`}>{x.name}</a></li>
+                            <Card key={i} style={{ width: '18rem' }}>
+                                <Card.Img variant="top" src={x.thumbnail} />
+                                <Card.Body>
+                                    <Card.Title>{x.name}</Card.Title>
+                                    <Card.Text>
+                                        {x.description}
+                                    </Card.Text>
+                                    <Button variant="success" onClick={() => navigate(`place/${x.id}`)}>View Page</Button>
+                                </Card.Body>
+                            </Card>
+                        ))
+                        }
+                    </ul>
+                </>
+                :
+                <p>No places found</p>
             }
 
 

@@ -22,8 +22,7 @@ const AddPlace = (props) => {
             .then(x => {
                 if (x.done) {
                     console.log('place added');
-                    if (photo) {
-                        apiAccess.addPhotoToPlace(photo, x.id)
+                    apiAccess.addPhotoToPlace(photo, x.id)
                         .then(y => {
                             console.log('photo added');
                             navigate('/place/' + x.id);
@@ -31,9 +30,7 @@ const AddPlace = (props) => {
                         .catch(err => {
                             console.log(err);
                         })
-                    } else {
-                        navigate('/place/' + x.id);
-                    }
+
                 } else {
                     alert(x.message);
                 }

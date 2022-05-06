@@ -19,9 +19,9 @@ const Navigation = (props) => {
     return (
         <Navbar bg="dark" variant="dark">
             <Container>
-                <Navbar.Brand href="#">Find Nearby Places</Navbar.Brand>
+                <Navbar.Brand href="#/">Find Nearby Places</Navbar.Brand>
                 <Nav className="me-auto">
-                    <Nav.Link href="#">Home</Nav.Link>
+                    <Nav.Link href="#/">Home</Nav.Link>
                     <Nav.Link href="#/addPlace">Add Place</Nav.Link>
                     {
                         props.customer ?
