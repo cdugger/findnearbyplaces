@@ -98,7 +98,24 @@ const apiAccess = {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                return data
+                return data;
+            })
+    },
+
+    deletePlace: (place_id) => {
+        return fetch(`${serverAddress}/place/${place_id}`, {
+            method: 'Delete',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Credentials': true
+            },
+            body: JSON.stringify({ place_id })
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                return data;
             })
     },
 
