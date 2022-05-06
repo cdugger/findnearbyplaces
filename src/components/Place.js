@@ -41,9 +41,9 @@ const Place = (props) => {
         setShowEditPlace(true);
     }
 
-    const handleEditPlace = (name, latitude, longitude, description) => {
+    const handleEditPlace = (name, latitude, longitude, description, category_id) => {
 
-        apiAccess.updatePlace(id, name, latitude, longitude, description)
+        apiAccess.updatePlace(id, name, latitude, longitude, description, category_id)
             .then(x => {
                 window.location.reload();
             })

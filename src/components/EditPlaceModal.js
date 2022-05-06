@@ -3,6 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
+import apiAccess from '../api/APIAccess';
 
 
 const EditPlaceModal = (props) => {
@@ -10,11 +11,24 @@ const EditPlaceModal = (props) => {
     const [longitude, setLongitude] = useState(props.place.longitude);
     const [latitude, setLatitude] = useState(props.place.latitude);
     const [description, setDescription] = useState(props.place.description);
+    const [category, setCategory] = useState(props.place);
+    const [categories, setCategories] = useState([]);
 
     const handleConfirm = () => {
-        props.onConfirm(name, longitude, latitude, description);
+        props.onConfirm(name, longitude, latitude, description, category);
         props.hide();
     }
+
+    useEffect(() => {
+        apiAccess.getCategories()
+            .then(x => {
+                setCategories(x.result);
+                setCategory(x.result[0].id);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }, []);
 
     return (
         <Modal show={props.show} onHide={props.hide}>
@@ -35,6 +49,16 @@ const EditPlaceModal = (props) => {
                 <FloatingLabel controlId="floatingTextarea" label="Description" className="mb-3">
                     <Form.Control type="text" placeholder="" value={description} onChange={(e) => setDescription(e.target.value)} />
                 </FloatingLabel>
+                <Form.Group controlId="formGridCategory">
+                    <Form.Label>Category</Form.Label>
+                    <Form.Select defaultValue="" onChange={(e) => { setCategory(e.target.value) }}>
+                        {
+                            categories.map((x, i) => (
+                                <option key={i} value={x.id}>{x.name}</option>
+                            ))
+                        }
+                    </Form.Select>
+                </Form.Group>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={props.hide}>

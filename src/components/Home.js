@@ -19,7 +19,7 @@ const Home = () => {
     const navigate = useNavigate();
 
     const handleSearch = () => {
-        apiAccess.search(searchTerm, radius, currentPosition.latitude, currentPosition.longitude, null)
+        apiAccess.search(searchTerm, radius, currentPosition.latitude, currentPosition.longitude, maxResults)
             .then(x => {
                 if (x.done) {
                     setPlaces(x.result);
@@ -52,7 +52,7 @@ const Home = () => {
                 <Form.Control placeholder="Search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
             </Form.Group>
             <Form.Group controlId="formGridPhoto">
-                <Form.Label>Search Radius</Form.Label>
+                <Form.Label>Search Radius (0 ignores radius)</Form.Label>
                 <Form.Control type="number" min="0" value={radius} onChange={(e) => setRadius(e.target.value)} />
             </Form.Group>
             <Form.Group controlId="formGridMax">
@@ -74,8 +74,9 @@ const Home = () => {
                                 <Card.Img variant="top" src={x.thumbnail} />
                                 <Card.Body>
                                     <Card.Title>{x.name}</Card.Title>
+                                    <Card.Subtitle>Category: {x.category}</Card.Subtitle>
                                     <Card.Text>
-                                        {x.description}
+                                        Description: {x.description}
                                     </Card.Text>
                                     <Button variant="success" onClick={() => navigate(`place/${x.id}`)}>View Page</Button>
                                 </Card.Body>

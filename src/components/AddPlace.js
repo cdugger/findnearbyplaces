@@ -60,7 +60,7 @@ const AddPlace = (props) => {
                 </Form.Group>
                 <Form.Group as={Col} controlId="formGridCategory">
                     <Form.Label>Category</Form.Label>
-                    <Form.Select defaultValue="" onChange={(e) => { console.log(e.target.value) }}>
+                    <Form.Select defaultValue="" onChange={(e) => { setCategory(e.target.value) }}>
                         {
                             categories.map((x, i) => (
                                 <option key={i} value={x.id}>{x.name}</option>

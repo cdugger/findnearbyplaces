@@ -47,7 +47,7 @@ const apiAccess = {
             });
     },
 
-    search: (search_term, radius_filter, latitude, longitude, category_filter, maximum_results_to_return) => {
+    search: (search_term, radius_filter, latitude, longitude, maximum_results_to_return) => {
         const user_location = latitude + "," + longitude;
         // const search_str = search_term ? search_term : '';
         // const category_str = category_filter ? category_filter : '';
@@ -58,7 +58,7 @@ const apiAccess = {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ search_term, user_location, radius_filter, maximum_results_to_return, category_filter })
+            body: JSON.stringify({ search_term, user_location, radius_filter, maximum_results_to_return })
         })
             .then(res => res.json())
             .then(data => {
@@ -95,7 +95,7 @@ const apiAccess = {
             })
     },
 
-    updatePlace: (place_id, name, latitude, longitude, description) => {
+    updatePlace: (place_id, name, latitude, longitude, description, category_id) => {
         return fetch(`${serverAddress}/place`,
             {
                 method: 'Put',
@@ -104,7 +104,7 @@ const apiAccess = {
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Credentials': true
                 },
-                body: JSON.stringify({ place_id, name, latitude, longitude, description })
+                body: JSON.stringify({ place_id, name, latitude, longitude, description, category_id })
             })
             .then(res => res.json())
             .then(data => {
