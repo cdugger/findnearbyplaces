@@ -42,8 +42,15 @@ const Place = (props) => {
     const addReview = () => {
         apiAccess.addReview(reviewText, rating, reviewPhoto, id)
             .then(x => {
-                console.log(x);
-                window.location.reload();
+                if (x.done) {
+                    apiAccess.addPhotoToReview(reviewPhoto, x.id)
+                        .then(y => {
+                            console.log('review photo added');
+                            window.location.reload();
+                        })
+                } else {
+                    alert(x.message);
+                }
             })
             .catch(err => {
                 console.log(err);
@@ -99,7 +106,23 @@ const Place = (props) => {
                                     <h5>Reviews</h5>
                                     <ul>
                                         {reviews.map((x, i) => (
-                                            <li key={i}>{x.email} says: {x.name} {x.text} {x.rating}/10</li>
+                                            // <li key={i}>{x.email} says: {x.name} {x.text} {x.rating}/10</li>
+                                            <Card className="text-center" style={{ "width": "15rem" }}>
+                                                <Card.Header as="h5" ></Card.Header>
+                                                <Card.Img variant="top" src={x.file} />
+                                                <Card.Body>
+                                                    <Card.Title>{x.email}</Card.Title>
+                                                    <Card.Subtitle>{place.description}</Card.Subtitle>
+                                               
+                                                    <Card.Text>{x.text}</Card.Text>
+                                                    <Card.Text>{x.rating}</Card.Text>
+                                                </Card.Body>
+                                                <ListGroup>
+                                                    <ListGroup.Item></ListGroup.Item>
+                                                </ListGroup>
+                                                <Card.Footer>
+                                                </Card.Footer>
+                                            </Card>
                                         ))}
                                     </ul>
                                 </>

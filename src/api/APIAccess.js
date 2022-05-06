@@ -158,6 +158,18 @@ const apiAccess = {
             },
             body: JSON.stringify({ photo, place_id })
         })
+    },
+
+    addPhotoToReview: (photo, review_id) => {
+        return fetch(`${serverAddress}/photo`, {
+            method: 'Post',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Credentials': true
+            },
+            body: JSON.stringify({ photo, review_id })
+        })
     }
 
 };
