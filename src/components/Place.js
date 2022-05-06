@@ -7,6 +7,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Card from 'react-bootstrap/Card';
 import { useNavigate, useParams } from 'react-router-dom';
 import apiAccess from '../api/APIAccess';
+import EditPlaceModal from './EditPlaceModal';
 
 
 const Place = (props) => {
@@ -15,6 +16,7 @@ const Place = (props) => {
     const [reviewText, setReviewText] = useState('');
     const [reviewPhoto, setReviewPhoto] = useState('');
     const [rating, setRating] = useState(1);
+    const [showEditPlace, setShowEditPlace] = useState(false);
     const navigate = useNavigate();
     const { id } = useParams();
 
@@ -35,8 +37,20 @@ const Place = (props) => {
         }
     }
 
-    const editPlace = () => {
+    const showEditPlaceModal = () => {
+        setShowEditPlace(true);
+    }
 
+    const handleEditPlace = (name, latitude, longitude, description) => {
+
+        apiAccess.updatePlace(id, name, latitude, longitude, description)
+            .then(x => {
+                window.location.reload();
+            })
+            .catch(err => {
+                console.log(err);
+                alert('Something went wrong');
+            })
     }
 
     const addReview = () => {
@@ -76,6 +90,12 @@ const Place = (props) => {
     return (
         <Container>
             {
+                showEditPlace ?
+                <EditPlaceModal show={showEditPlace} hide={() => setShowEditPlace(false)} place={place} onConfirm={handleEditPlace}/>
+                :
+                <></>
+            }
+            {
                 place ?
                     <>
                         <Card className="text-center" style={{ "width": "25rem" }}>
@@ -95,7 +115,7 @@ const Place = (props) => {
                                 <ListGroup.Item></ListGroup.Item>
                             </ListGroup>
                             <Card.Footer>
-                                <Button variant="warning" onClick={editPlace}>Edit</Button>
+                                <Button variant="warning" onClick={showEditPlaceModal}>Edit</Button>
                                 <Button variant="danger" onClick={deletePlace}>Delete</Button>
                             </Card.Footer>
                         </Card>
@@ -108,18 +128,14 @@ const Place = (props) => {
                                         {reviews.map((x, i) => (
                                             // <li key={i}>{x.email} says: {x.name} {x.text} {x.rating}/10</li>
                                             <Card className="text-center" style={{ "width": "15rem" }}>
-                                                <Card.Header as="h5" ></Card.Header>
                                                 <Card.Img variant="top" src={x.file} />
                                                 <Card.Body>
-                                                    <Card.Title>{x.email}</Card.Title>
-                                                    <Card.Subtitle>{place.description}</Card.Subtitle>
+                                                    <Card.Title as="h6">{x.email} says:</Card.Title>
+                                                    <Card.Subtitle></Card.Subtitle>
                                                
                                                     <Card.Text>{x.text}</Card.Text>
-                                                    <Card.Text>{x.rating}</Card.Text>
+                                                    <Card.Text>Rating: <strong>{x.rating}/10</strong></Card.Text>
                                                 </Card.Body>
-                                                <ListGroup>
-                                                    <ListGroup.Item></ListGroup.Item>
-                                                </ListGroup>
                                                 <Card.Footer>
                                                 </Card.Footer>
                                             </Card>

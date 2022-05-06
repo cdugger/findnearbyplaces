@@ -95,6 +95,24 @@ const apiAccess = {
             })
     },
 
+    updatePlace: (place_id, name, latitude, longitude, description) => {
+        return fetch(`${serverAddress}/place`,
+            {
+                method: 'Put',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Credentials': true
+                },
+                body: JSON.stringify({ place_id, name, latitude, longitude, description })
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                return data;
+            })
+    },
+
     addReview: (comment, rating, photo, place_id) => {
         console.log(JSON.stringify({ place_id, comment, rating }))
         return fetch(`${serverAddress}/review`,
