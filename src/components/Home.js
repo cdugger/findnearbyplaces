@@ -2,6 +2,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import apiAccess from '../api/APIAccess';
@@ -9,13 +10,28 @@ import apiAccess from '../api/APIAccess';
 
 const Home = () => {
     const [places, setPlaces] = useState([]);
+    const [currentPosition, setCurrentPosition] = useState({});
     const navigate = useNavigate();
 
-    let getPlace = (placeName) => {
+    const getPlace = (placeName) => {
         navigate('/place/' + placeName);
     }
 
+    const getLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+           alert("Geolocation is not supported by this browser.");
+        }
+    }
+    const showPosition = (position) => {
+        setCurrentPosition(position.coords);
+        console.log(`<br>Current location:<br>Latitude:  ${position.coords.latitude} <br>Longitude:  ${position.coords.longitude}`);
+
+    }
+
     useEffect(() => {
+        getLocation();
         // apiAccess.getPlaces()
         // .then(x => {
         //     setPlaces(x);
@@ -28,18 +44,9 @@ const Home = () => {
 
     return (
         <Container>
-            <Row xs={1} md={3} className="g-4 text-center">
-                {places.map((f, i) => (
-                    <Col key={i}>
-                        <Card className="h-100" onClick={() => getPlace(f.name)}>
-                            <Card.Img variant="top" src={f.picture} />
-                            <Card.Body>
-                                <Card.Title>{f.name}</Card.Title>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                ))}
-            </Row>
+            <Button variant="primary" type="submit">
+                Find Places Near Me
+            </Button>
         </Container>
     );
 }
